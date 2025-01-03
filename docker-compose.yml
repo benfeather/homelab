@@ -1,0 +1,9 @@
+  include:
+    - 'authentik/docker-compose.yml'
+    # - 'traefik/docker-compose.yml'
+  
+  networks:
+    backend:
+      driver: bridge
+    frontend:
+      driver: bridge

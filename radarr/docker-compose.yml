@@ -2,14 +2,39 @@ services:
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Etc/UTC
-    volumes:
-      - /config:/config
-      - ../data/movies:/movies
-      - ../data/downloads:/downloads
-    ports:
-      - 7878:7878
     restart: unless-stopped
+    env_file: ../.env
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+    ports:
+      - ${RADARR_PORT:-7878}:7878
+    volumes:
+      - ${CONFIG_PATH}/radarr:/config
+      - ${DATA_PATH}/downloads:/downloads
+      - ${DATA_PATH}/movies:/movies
+    labels:
+      traefik.enable: true
+      traefik.port: ${RADARR_PORT:-7878}
+      traefik.frontend.rule: Host:radarr.${DOMAIN}
+
+  radarr-anime:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr-anime
+    restart: unless-stopped
+    env_file: ../.env
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+    ports:
+      - ${RADARR_ANIME_PORT:-7979}:7878
+    volumes:
+      - ${CONFIG_PATH}/radarr-anime:/config
+      - ${DATA_PATH}/downloads:/downloads
+      - ${DATA_PATH}/movies-anime:/movies
+    labels:
+      traefik.enable: true
+      traefik.port: ${RADARR_ANIME_PORT:-7979}
+      traefik.frontend.rule: Host:radarr-anime.${DOMAIN}
