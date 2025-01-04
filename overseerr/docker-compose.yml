@@ -1,0 +1,17 @@
+services:
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:latest
+    container_name: overseerr
+    restart: unless-stopped
+    env_file: ../.env
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+    volumes:
+      - ${CONFIG_PATH}/overseerr:/config
+    networks:
+      - frontend
+    labels:
+      traefik.enable: true
+      traefik.http.routers.overseerr.rule: Host(`overseerr.${DOMAIN}`)

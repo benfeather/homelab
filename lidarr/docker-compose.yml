@@ -1,0 +1,19 @@
+services:
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:latest
+    container_name: lidarr
+    restart: unless-stopped
+    env_file: ../.env
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+    volumes:
+      - ${CONFIG_PATH}/lidarr:/config
+      - ${DATA_PATH}/downloads:/downloads
+      - ${DATA_PATH}/media:/media
+    networks:
+      - frontend
+    labels:
+      traefik.enable: true
+      traefik.http.routers.lidarr.rule: Host(`lidarr.${DOMAIN}`)

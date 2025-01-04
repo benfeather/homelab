@@ -1,0 +1,20 @@
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    restart: unless-stopped
+    env_file: ../.env
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      VERSION: docker
+      PLEX_CLAIM: ${PLEX_CLAIM}
+    volumes:
+      - ${CONFIG_PATH}/plex:/config
+      - ${DATA_PATH}/media:/media
+    networks:
+      - frontend
+    labels:
+      traefik.enable: true
+      traefik.http.routers.plex.rule: Host(`plex.${DOMAIN}`)
