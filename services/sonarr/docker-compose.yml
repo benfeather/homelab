@@ -1,38 +1,38 @@
 services:
-  radarr:
-    image: lscr.io/linuxserver/radarr:latest
-    container_name: radarr
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
     restart: unless-stopped
-    env_file: ../.env
+    env_file: ../../.env
     environment:
       PUID: ${PUID}
       PGID: ${PGID}
       TZ: ${TZ}
     volumes:
-      - ${CONF_DIR}/radarr:/config
+      - ${CONF_DIR}/sonarr:/config
       - ${DATA_DIR}/downloads:/downloads
       - ${DATA_DIR}/media:/media
     networks:
       - frontend
     labels:
       traefik.enable: true
-      traefik.http.routers.radarr.rule: Host(`radarr.${DOMAIN}`)
+      traefik.http.routers.sonarr.rule: Host(`sonarr.${DOMAIN}`)
 
-  radarr-anime:
-    image: lscr.io/linuxserver/radarr:latest
-    container_name: radarr-anime
+  sonarr-anime:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr-anime
     restart: unless-stopped
-    env_file: ../.env
+    env_file: ../../.env
     environment:
       PUID: ${PUID}
       PGID: ${PGID}
       TZ: ${TZ}
     volumes:
-      - ${CONF_DIR}/radarr-anime:/config
+      - ${CONF_DIR}/sonarr-anime:/config
       - ${DATA_DIR}/downloads:/downloads
       - ${DATA_DIR}/media:/media
     networks:
       - frontend
     labels:
       traefik.enable: true
-      traefik.http.routers.radarr-anime.rule: Host(`radarr-anime.${DOMAIN}`)
+      traefik.http.routers.sonarr-anime.rule: Host(`sonarr-anime.${DOMAIN}`)

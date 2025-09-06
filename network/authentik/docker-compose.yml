@@ -3,7 +3,7 @@ services:
     image: ghcr.io/goauthentik/server:latest
     container_name: authentik-server
     command: server
-    env_file: ../.env
+    env_file: ../../.env
     environment:
       AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
       AUTHENTIK_POSTGRESQL__HOST: authentik-db
@@ -29,7 +29,7 @@ services:
     image: ghcr.io/goauthentik/server:latest
     container_name: authentik-worker
     command: worker
-    env_file: ../.env
+    env_file: ../../.env
     environment:
       AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
       AUTHENTIK_POSTGRESQL__HOST: authentik-db
@@ -47,7 +47,7 @@ services:
     image: postgres:alpine
     container_name: authentik-db
     restart: unless-stopped
-    env_file: ../.env
+    env_file: ../../.env
     environment:
       POSTGRES_DB: authentik
       POSTGRES_USER: authentik

@@ -3,7 +3,7 @@ services:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     restart: unless-stopped
-    env_file: ../.env
+    env_file: ../../.env
     environment:
       PUID: ${PUID}
       PGID: ${PGID}

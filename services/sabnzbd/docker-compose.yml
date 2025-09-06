@@ -1,19 +1,19 @@
 services:
-  lidarr:
-    image: lscr.io/linuxserver/lidarr:latest
-    container_name: lidarr
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
     restart: unless-stopped
-    env_file: ../.env
+    env_file: ../../.env
     environment:
       PUID: ${PUID}
       PGID: ${PGID}
       TZ: ${TZ}
     volumes:
-      - ${CONF_DIR}/lidarr:/config
+      - ${CONF_DIR}/sabnzbd:/config
       - ${DATA_DIR}/downloads:/downloads
       - ${DATA_DIR}/media:/media
     networks:
       - frontend
     labels:
       traefik.enable: true
-      traefik.http.routers.lidarr.rule: Host(`lidarr.${DOMAIN}`)
+      traefik.http.routers.nzb.rule: Host(`nzb.${DOMAIN}`)
