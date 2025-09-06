@@ -1,39 +1,33 @@
 services:
   traefik:
-    image: traefik:latest
-    container_name: traefik
+    container_name: "traefik"
+    image: "traefik:latest"
     command:
-      - --providers.docker=true
-      - --providers.docker.exposedbydefault=false
-      - --entrypoints.web.address=:80
-      - --entrypoints.websecure.address=:443
-      - --experimental.localPlugins.authentik-forwardauth.modulename=github.com/fareedmurtaza/traefik-forward-authentik
-      - --api.dashboard=true
-    labels:
-      - traefik.enable=true
-      - traefik.http.middlewares.ak-forwardauth.forwardauth.address=http://authentik-server:9000/outpost.goauthentik.io/auth/traefik
-      - traefik.http.middlewares.ak-forwardauth.forwardauth.trustForwardHeader=true
-      - traefik.http.middlewares.ak-forwardauth.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-email
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
     networks:
-      - backend
       - frontend
     ports:
-      - 80:80
-      - 443:443
-      - 8080:8080
-    depends_on:
-      - authentik-server
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.dashboard.rule: Host(`dashboard.${DOMAIN}`)
+      traefik.http.routers.dashboard.entrypoints: web
+      traefik.http.services.dashboard.loadbalancer.server.port: 8080
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
   traefik-whoami:
-    image: traefik/whoami:latest
-    container_name: traefik-whoami
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.whoami.rule=Host(`whoami.local`)
-      - traefik.http.routers.whoami.entrypoints=web
-      - traefik.http.routers.whoami.middlewares=ak-forwardauth
-      - traefik.http.services.whoami.loadbalancer.server.port=80
+    container_name: "traefik-whoami"
+    image: "traefik/whoami:latest"
     networks:
-      - backend
+      - frontend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
