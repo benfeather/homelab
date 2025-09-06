@@ -9,7 +9,7 @@ services:
       PGID: ${PGID}
       TZ: ${TZ}
     volumes:
-      - ${CONFIG_PATH}/prowlarr:/config
+      - ${CONF_DIR}/prowlarr:/config
     networks:
       - frontend
     labels:

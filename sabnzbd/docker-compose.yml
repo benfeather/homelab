@@ -9,9 +9,9 @@ services:
       PGID: ${PGID}
       TZ: ${TZ}
     volumes:
-      - ${CONFIG_PATH}/sabnzbd:/config
-      - ${DATA_PATH}/downloads:/downloads
-      - ${DATA_PATH}/media:/media
+      - ${CONF_DIR}/sabnzbd:/config
+      - ${DATA_DIR}/downloads:/downloads
+      - ${DATA_DIR}/media:/media
     networks:
       - frontend
     labels:

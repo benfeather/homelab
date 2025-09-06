@@ -11,8 +11,8 @@ services:
       VERSION: docker
       PLEX_CLAIM: ${PLEX_CLAIM}
     volumes:
-      - ${CONFIG_PATH}/plex:/config
-      - ${DATA_PATH}/media:/media
+      - ${CONF_DIR}/plex:/config
+      - ${DATA_DIR}/media:/media
     networks:
       - frontend
     labels:

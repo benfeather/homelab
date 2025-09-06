@@ -9,9 +9,9 @@ services:
       PGID: ${PGID}
       TZ: ${TZ}
     volumes:
-      - ${CONFIG_PATH}/radarr:/config
-      - ${DATA_PATH}/downloads:/downloads
-      - ${DATA_PATH}/media:/media
+      - ${CONF_DIR}/radarr:/config
+      - ${DATA_DIR}/downloads:/downloads
+      - ${DATA_DIR}/media:/media
     networks:
       - frontend
     labels:
@@ -28,9 +28,9 @@ services:
       PGID: ${PGID}
       TZ: ${TZ}
     volumes:
-      - ${CONFIG_PATH}/radarr-anime:/config
-      - ${DATA_PATH}/downloads:/downloads
-      - ${DATA_PATH}/media:/media
+      - ${CONF_DIR}/radarr-anime:/config
+      - ${DATA_DIR}/downloads:/downloads
+      - ${DATA_DIR}/media:/media
     networks:
       - frontend
     labels:

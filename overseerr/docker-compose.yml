@@ -9,7 +9,7 @@ services:
       PGID: ${PGID}
       TZ: ${TZ}
     volumes:
-      - ${CONFIG_PATH}/overseerr:/config
+      - ${CONF_DIR}/overseerr:/config
     networks:
       - frontend
     labels:

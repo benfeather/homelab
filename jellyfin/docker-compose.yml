@@ -9,8 +9,8 @@ services:
       PGID: ${PGID}
       TZ: ${TZ}
     volumes:
-      - ${CONFIG_PATH}/jellyfin:/config
-      - ${DATA_PATH}/media:/media
+      - ${CONF_DIR}/jellyfin:/config
+      - ${DATA_DIR}/media:/media
     networks:
       - frontend
     labels:

@@ -9,9 +9,9 @@ services:
       PGID: ${PGID}
       TZ: ${TZ}
     volumes:
-      - ${CONFIG_PATH}/sonarr:/config
-      - ${DATA_PATH}/downloads:/downloads
-      - ${DATA_PATH}/media:/media
+      - ${CONF_DIR}/sonarr:/config
+      - ${DATA_DIR}/downloads:/downloads
+      - ${DATA_DIR}/media:/media
     networks:
       - frontend
     labels:
@@ -28,9 +28,9 @@ services:
       PGID: ${PGID}
       TZ: ${TZ}
     volumes:
-      - ${CONFIG_PATH}/sonarr-anime:/config
-      - ${DATA_PATH}/downloads:/downloads
-      - ${DATA_PATH}/media:/media
+      - ${CONF_DIR}/sonarr-anime:/config
+      - ${DATA_DIR}/downloads:/downloads
+      - ${DATA_DIR}/media:/media
     networks:
       - frontend
     labels:

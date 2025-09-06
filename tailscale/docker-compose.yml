@@ -1,0 +1,28 @@
+services:
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: tailscale
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    env_file: ../.env
+    environment:
+      TS_AUTHKEY: ${TS_AUTHKEY}
+      # Serve TCP 80 and 443 from Traefik to Tailnet:
+      TS_SERVE_CONFIG: |
+        {
+          "TCP": {
+            "443": { "HTTPS": { "InsecureSkipVerify": true, "HTTP1": true, "ForwardAddr": "traefik:443" } },
+            "80":  { "TCP":   { "ForwardAddr": "traefik:80" } }
+          }
+        }
+    volumes:
+      - tailscale-state:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    network_mode: service:traefik
+    depends_on:
+      - traefik
+
+volumes:
+  tailscale-state:
+    driver: local

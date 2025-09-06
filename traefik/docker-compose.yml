@@ -2,50 +2,38 @@ services:
   traefik:
     image: traefik:latest
     container_name: traefik
-    restart: unless-stopped
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --experimental.localPlugins.authentik-forwardauth.modulename=github.com/fareedmurtaza/traefik-forward-authentik
+      - --api.dashboard=true
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.ak-forwardauth.forwardauth.address=http://authentik-server:9000/outpost.goauthentik.io/auth/traefik
+      - traefik.http.middlewares.ak-forwardauth.forwardauth.trustForwardHeader=true
+      - traefik.http.middlewares.ak-forwardauth.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-email
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - backend
+      - frontend
     ports:
       - 80:80
       - 443:443
       - 8080:8080
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./config/acme.json:/acme.json
-      - ./config/traefik.yml:/etc/traefik/traefik.yml
+    depends_on:
+      - authentik-server
+
+  traefik-whoami:
+    image: traefik/whoami:latest
+    container_name: traefik-whoami
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.whoami.rule=Host(`whoami.local`)
+      - traefik.http.routers.whoami.entrypoints=web
+      - traefik.http.routers.whoami.middlewares=ak-forwardauth
+      - traefik.http.services.whoami.loadbalancer.server.port=80
     networks:
       - backend
-      - frontend
-    
-  # traefik-whoami:
-  #   image: traefik/whoami:latest
-  #   container_name: traefik-whoami
-  #   restart: unless-stopped
-  #   labels:
-  #     traefik.enable: true
-  #     traefik.http.routers.whoami.rule: Host(`app.company`)
-  #     traefik.http.routers.whoami.middlewares: authentik@docker
-  #   networks:
-  #     - backend
-
-  # authentik:
-  #   image: ghcr.io/goauthentik/proxy
-  #   container_name: authentik
-  #   restart: unless-stopped
-  #   ports:
-  #       - 9000:9000
-  #       - 9443:9443
-  #   environment:
-  #       AUTHENTIK_HOST: https://your-authentik.tld
-  #       AUTHENTIK_INSECURE: "false"
-  #       AUTHENTIK_TOKEN: token-generated-by-authentik
-  #       # Starting with 2021.9, you can optionally set this too
-  #       # when authentik_host for internal communication doesn't match the public URL
-  #       # AUTHENTIK_HOST_BROWSER: https://external-domain.tld
-  #   labels:
-  #       traefik.enable: true
-  #       traefik.port: 9000
-  #       traefik.http.routers.authentik.rule: Host(`app.company`) && PathPrefix(`/outpost.goauthentik.io/`)
-  #       # `authentik-proxy` refers to the service name in the compose file.
-  #       traefik.http.middlewares.authentik.forwardauth.address: http://authentik-proxy:9000/outpost.goauthentik.io/auth/traefik
-  #       traefik.http.middlewares.authentik.forwardauth.trustForwardHeader: true
-  #       traefik.http.middlewares.authentik.forwardauth.authResponseHeaders: X-authentik-username,X-authentik-groups,X-authentik-entitlements,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version
-
