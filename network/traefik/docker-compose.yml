@@ -1,15 +1,16 @@
 services:
-  tailscale-traefik:
+  tailscale:
     image: tailscale/tailscale
     container_name: tailscale
     hostname: traefik
     env_file: ../../.env
     environment:
+      - TS_AUTH_ONCE=true
       - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_USERSPACE=false
     volumes:
-      - ./tailscale-traefik/state:/var/lib/tailscale
+      - tailscale-state:/var/lib/tailscale
       - /dev/net/tun:/dev/net/tun
     cap_add:
       - net_admin
@@ -20,8 +21,6 @@ services:
     image: traefik
     container_name: traefik
     restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
     env_file: ../../.env
     environment:
       - TZ=${TZ}
@@ -29,8 +28,8 @@ services:
       - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
       - CF_ZONE_API_TOKEN=${CF_DNS_API_TOKEN}
     depends_on:
-      - tailscale-traefik
-    network_mode: service:tailscale-traefik
+      - tailscale
+    network_mode: service:tailscale
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Docker socket to watch for Traefik
       - traefik-certs:/certs # Docker volume to store the acme file for the Certifactes
@@ -64,5 +63,8 @@ services:
       - "traefik.http.services.traefik.loadbalancer.server.port=8080"
 
 volumes:
+  tailscale-state:
+    driver: local
+
   traefik-certs:
-    name: traefik-certs
+    driver: local

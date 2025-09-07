@@ -12,8 +12,6 @@ services:
       - ${CONF_DIR}/radarr:/config
       - ${DATA_DIR}/downloads:/downloads
       - ${DATA_DIR}/media:/media
-    networks:
-      - frontend
     labels:
       traefik.enable: true
       traefik.http.routers.radarr.rule: Host(`radarr.${DOMAIN}`)
@@ -31,8 +29,6 @@ services:
       - ${CONF_DIR}/radarr-anime:/config
       - ${DATA_DIR}/downloads:/downloads
       - ${DATA_DIR}/media:/media
-    networks:
-      - frontend
     labels:
       traefik.enable: true
       traefik.http.routers.radarr-anime.rule: Host(`radarr-anime.${DOMAIN}`)

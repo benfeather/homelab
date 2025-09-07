@@ -10,7 +10,7 @@
     # - services/overseerr/docker-compose.yml
     # - services/plex/docker-compose.yml
     # - services/prowlarr/docker-compose.yml
-    # - services/radarr/docker-compose.yml
+    - services/radarr/docker-compose.yml
     # - services/sabnzbd/docker-compose.yml
     # - services/sonarr/docker-compose.yml
   
