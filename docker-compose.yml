@@ -4,6 +4,8 @@
     - network/traefik/docker-compose.yml
     
     # Services
+    - services/bazarr/docker-compose.yml
+    - services/huntarr/docker-compose.yml
     - services/lidarr/docker-compose.yml
     - services/overseerr/docker-compose.yml
     - services/plex/docker-compose.yml

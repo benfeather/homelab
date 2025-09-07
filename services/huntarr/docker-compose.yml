@@ -1,0 +1,13 @@
+services:
+  huntarr:
+    image: huntarr/huntarr:latest
+    container_name: huntarr
+    restart: unless-stopped
+    env_file: ../../.env
+    environment:
+      TZ: ${TZ}
+    volumes:
+      - ${CONF_DIR}/huntarr:/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.huntarr.rule: Host(`huntarr.${DOMAIN}`)
