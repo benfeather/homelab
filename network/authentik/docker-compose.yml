@@ -1,6 +1,6 @@
 services:
-  authentik-db:
-    container_name: authentik-db
+  authentik_db:
+    container_name: authentik_db
     image: postgres:alpine
     restart: unless-stopped
     env_file: ../../.env
@@ -8,8 +8,6 @@ services:
       POSTGRES_DB: authentik
       POSTGRES_PASSWORD: ${AUTHENTIK_DB_PASS}
       POSTGRES_USER: authentik
-    networks:
-      - backend
     healthcheck:
       interval: 30s
       retries: 5
@@ -21,13 +19,11 @@ services:
     volumes:
       - ${CONF_DIR}/authentik/db:/var/lib/postgresql/data
   
-  authentik-redis:
-    container_name: authentik-redis
+  authentik_redis:
+    container_name: authentik_redis
     image: redis:alpine
     command: --save 60 1 --loglevel warning
     restart: unless-stopped
-    networks:
-      - backend
     healthcheck:
       interval: 30s
       retries: 5
@@ -37,24 +33,21 @@ services:
         - redis-cli ping | grep PONG
       timeout: 3s
     volumes:
-      - redis:/data
+      - redis_data:/data
   
-  authentik-server:
-    container_name: authentik-server
+  authentik_server:
+    container_name: authentik_server
     image: ghcr.io/goauthentik/server:latest
     command: server
     restart: unless-stopped
     env_file: ../../.env
     environment:
-      AUTHENTIK_POSTGRESQL__HOST: authentik-db
+      AUTHENTIK_POSTGRESQL__HOST: authentik_db
       AUTHENTIK_POSTGRESQL__NAME: authentik
       AUTHENTIK_POSTGRESQL__PASSWORD: ${AUTHENTIK_DB_PASS}
       AUTHENTIK_POSTGRESQL__USER: authentik
-      AUTHENTIK_REDIS__HOST: authentik-redis
+      AUTHENTIK_REDIS__HOST: authentik_redis
       AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
-    networks:
-      - backend
-      - frontend
     labels:
       traefik.enable: true
       traefik.http.routers.authentik.rule: Host(`authentik.${DOMAIN}`)
@@ -64,38 +57,36 @@ services:
       - ${CONF_DIR}/authentik/templates:/templates
       - ${CONF_DIR}/authentik/media:/media
     depends_on:
-      authentik-db:
+      authentik_db:
         condition: service_healthy
-      authentik-redis:
+      authentik_redis:
         condition: service_healthy
   
-  authentik-worker:
-    container_name: authentik-worker
+  authentik_worker:
+    container_name: authentik_worker
     image: ghcr.io/goauthentik/server:latest
     command: worker
     restart: unless-stopped
     user: root
     env_file: ../../.env
     environment:
-      AUTHENTIK_POSTGRESQL__HOST: authentik-db
+      AUTHENTIK_POSTGRESQL__HOST: authentik_db
       AUTHENTIK_POSTGRESQL__NAME: authentik
       AUTHENTIK_POSTGRESQL__PASSWORD: ${AUTHENTIK_DB_PASS}
       AUTHENTIK_POSTGRESQL__USER: authentik
-      AUTHENTIK_REDIS__HOST: authentik-redis
+      AUTHENTIK_REDIS__HOST: authentik_redis
       AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
-    networks:
-      - backend
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${CONF_DIR}/authentik/certs:/certs
       - ${CONF_DIR}/authentik/media:/media
       - ${CONF_DIR}/authentik/templates:/templates
     depends_on:
-      authentik-db:
+      authentik_db:
         condition: service_healthy
-      authentik-redis:
+      authentik_redis:
         condition: service_healthy
 
 volumes:
-  redis:
+  redis_data:
     driver: local

@@ -7,8 +7,10 @@ services:
       - NET_RAW
     env_file: ../../.env
     environment:
+      TS_AUTH_ONCE: true
       TS_AUTHKEY: ${TS_AUTHKEY}
-      # Serve TCP 80 and 443 from Traefik to Tailnet:
+      TS_HOSTNAME: "homelab"
+      TS_STATE_DIR: /var/lib/tailscale
       TS_SERVE_CONFIG: |
         {
           "TCP": {
@@ -17,12 +19,12 @@ services:
           }
         }
     volumes:
-      - tailscale-state:/var/lib/tailscale
+      - tailscale_data:/var/lib/tailscale
+      - ./tailscale/data:/var/lib/tailscale:rw
+      # Makes the tailscale socket (defined above) available to other services.
+      - ./tailscale:/var/run/tailscale
       - /dev/net/tun:/dev/net/tun
-    network_mode: service:traefik
-    depends_on:
-      - traefik
 
 volumes:
-  tailscale-state:
+  tailscale_data:
     driver: local
