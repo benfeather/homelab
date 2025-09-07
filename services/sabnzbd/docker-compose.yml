@@ -1,19 +1,17 @@
 services:
   sabnzbd:
     image: lscr.io/linuxserver/sabnzbd:latest
-    container_name: sabnzbd
+    container_name: nzb
     restart: unless-stopped
     env_file: ../../.env
     environment:
-      PUID: ${PUID}
       PGID: ${PGID}
+      PUID: ${PUID}
       TZ: ${TZ}
     volumes:
       - ${CONF_DIR}/sabnzbd:/config
       - ${DATA_DIR}/downloads:/downloads
       - ${DATA_DIR}/media:/media
-    networks:
-      - frontend
     labels:
       traefik.enable: true
       traefik.http.routers.nzb.rule: Host(`nzb.${DOMAIN}`)

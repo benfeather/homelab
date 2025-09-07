@@ -5,13 +5,11 @@ services:
     restart: unless-stopped
     env_file: ../../.env
     environment:
-      PUID: ${PUID}
       PGID: ${PGID}
+      PUID: ${PUID}
       TZ: ${TZ}
     volumes:
       - ${CONF_DIR}/prowlarr:/config
-    networks:
-      - frontend
     labels:
       traefik.enable: true
       traefik.http.routers.prowlarr.rule: Host(`prowlarr.${DOMAIN}`)

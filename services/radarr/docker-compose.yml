@@ -5,8 +5,8 @@ services:
     restart: unless-stopped
     env_file: ../../.env
     environment:
-      PUID: ${PUID}
       PGID: ${PGID}
+      PUID: ${PUID}
       TZ: ${TZ}
     volumes:
       - ${CONF_DIR}/radarr:/config
@@ -22,8 +22,8 @@ services:
     restart: unless-stopped
     env_file: ../../.env
     environment:
-      PUID: ${PUID}
       PGID: ${PGID}
+      PUID: ${PUID}
       TZ: ${TZ}
     volumes:
       - ${CONF_DIR}/radarr-anime:/config

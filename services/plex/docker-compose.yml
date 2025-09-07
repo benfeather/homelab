@@ -5,16 +5,15 @@ services:
     restart: unless-stopped
     env_file: ../../.env
     environment:
-      PUID: ${PUID}
       PGID: ${PGID}
+      PUID: ${PUID}
       TZ: ${TZ}
       VERSION: docker
-      PLEX_CLAIM: ${PLEX_CLAIM}
     volumes:
       - ${CONF_DIR}/plex:/config
       - ${DATA_DIR}/media:/media
-    networks:
-      - frontend
     labels:
       traefik.enable: true
       traefik.http.routers.plex.rule: Host(`plex.${DOMAIN}`)
+      traefik.http.routers.plex.entrypoints: websecure
+      traefik.http.services.plex.loadbalancer.server.port: 32400

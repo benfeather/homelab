@@ -5,15 +5,13 @@ services:
     restart: unless-stopped
     env_file: ../../.env
     environment:
-      PUID: ${PUID}
       PGID: ${PGID}
+      PUID: ${PUID}
       TZ: ${TZ}
     volumes:
       - ${CONF_DIR}/sonarr:/config
       - ${DATA_DIR}/downloads:/downloads
       - ${DATA_DIR}/media:/media
-    networks:
-      - frontend
     labels:
       traefik.enable: true
       traefik.http.routers.sonarr.rule: Host(`sonarr.${DOMAIN}`)
@@ -31,8 +29,6 @@ services:
       - ${CONF_DIR}/sonarr-anime:/config
       - ${DATA_DIR}/downloads:/downloads
       - ${DATA_DIR}/media:/media
-    networks:
-      - frontend
     labels:
       traefik.enable: true
       traefik.http.routers.sonarr-anime.rule: Host(`sonarr-anime.${DOMAIN}`)

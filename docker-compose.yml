@@ -1,22 +1,13 @@
   include:
     # Network
     # - network/authentik/docker-compose.yml
-    # - network/tailscale/docker-compose.yml
     - network/traefik/docker-compose.yml
     
     # Services
-    # - services/jellyfin/docker-compose.yml
-    # - services/lidarr/docker-compose.yml
-    # - services/overseerr/docker-compose.yml
-    # - services/plex/docker-compose.yml
-    # - services/prowlarr/docker-compose.yml
+    - services/lidarr/docker-compose.yml
+    - services/overseerr/docker-compose.yml
+    - services/plex/docker-compose.yml
+    - services/prowlarr/docker-compose.yml
     - services/radarr/docker-compose.yml
-    # - services/sabnzbd/docker-compose.yml
-    # - services/sonarr/docker-compose.yml
-  
-  # networks:
-  #   backend:
-  #     driver: bridge
-
-  #   frontend:
-  #     driver: bridge
+    - services/sabnzbd/docker-compose.yml
+    - services/sonarr/docker-compose.yml
