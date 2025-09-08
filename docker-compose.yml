@@ -6,6 +6,7 @@
     # Services
     - services/bazarr/docker-compose.yml
     - services/huntarr/docker-compose.yml
+    - services/lazylibrarian/docker-compose.yml
     - services/lidarr/docker-compose.yml
     - services/overseerr/docker-compose.yml
     - services/plex/docker-compose.yml
@@ -14,3 +15,4 @@
     - services/recyclarr/docker-compose.yml
     - services/sabnzbd/docker-compose.yml
     - services/sonarr/docker-compose.yml
+    - services/whisparr/docker-compose.yml

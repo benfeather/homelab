@@ -10,8 +10,7 @@ services:
       TZ: ${TZ}
     volumes:
       - ${CONF_DIR}/bazarr:/config
-      - ${DATA_DIR}/downloads:/downloads
-      - ${DATA_DIR}/media:/media
+      - ${DATA_DIR}:/data
     labels:
       traefik.enable: true
       traefik.http.routers.bazarr.rule: Host(`bazarr.${DOMAIN}`)
@@ -27,8 +26,7 @@ services:
       TZ: ${TZ}
     volumes:
       - ${CONF_DIR}/bazarr-anime:/config
-      - ${DATA_DIR}/downloads:/downloads
-      - ${DATA_DIR}/media:/media
+      - ${DATA_DIR}:/data
     labels:
       traefik.enable: true
       traefik.http.routers.bazarr-anime.rule: Host(`bazarr-anime.${DOMAIN}`)

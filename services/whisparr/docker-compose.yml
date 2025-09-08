@@ -1,7 +1,7 @@
 services:
-  sabnzbd:
-    image: lscr.io/linuxserver/sabnzbd:latest
-    container_name: nzb
+  whisparr:
+    container_name: whisparr
+    image: ghcr.io/hotio/whisparr
     restart: unless-stopped
     env_file: ../../.env
     environment:
@@ -9,8 +9,8 @@ services:
       PUID: ${PUID}
       TZ: ${TZ}
     volumes:
-      - ${CONF_DIR}/sabnzbd:/config
+      - ${CONF_DIR}/whisparr:/config
       - ${DATA_DIR}:/data
     labels:
       traefik.enable: true
-      traefik.http.routers.nzb.rule: Host(`nzb.${DOMAIN}`)
+      traefik.http.routers.whisparr.rule: Host(`whisparr.${DOMAIN}`)

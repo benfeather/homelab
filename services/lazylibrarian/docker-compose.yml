@@ -1,0 +1,18 @@
+services:
+  lazylibrarian:
+    image: lscr.io/linuxserver/lazylibrarian:latest
+    container_name: lazylibrarian
+    restart: unless-stopped
+    env_file: ../../.env
+    environment:
+      DOCKER_MODS: linuxserver/mods:universal-calibre|linuxserver/mods:lazylibrarian-ffmpeg
+      PGID: ${PGID}
+      PUID: ${PUID}
+      TZ: ${TZ}
+    volumes:
+      - ${CONF_DIR}/lazylibrarian:/config
+      - ${DATA_DIR}:/data
+    labels:
+      traefik.enable: true
+      traefik.http.routers.librarian.rule: Host(`librarian.${DOMAIN}`)
+    

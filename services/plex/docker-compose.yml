@@ -11,7 +11,7 @@ services:
       VERSION: docker
     volumes:
       - ${CONF_DIR}/plex:/config
-      - ${DATA_DIR}/media:/media
+      - ${DATA_DIR}:/data
     labels:
       traefik.enable: true
       traefik.http.routers.plex.rule: Host(`plex.${DOMAIN}`)

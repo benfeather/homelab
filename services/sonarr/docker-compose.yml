@@ -10,8 +10,7 @@ services:
       TZ: ${TZ}
     volumes:
       - ${CONF_DIR}/sonarr:/config
-      - ${DATA_DIR}/downloads:/downloads
-      - ${DATA_DIR}/media:/media
+      - ${DATA_DIR}:/data
     labels:
       traefik.enable: true
       traefik.http.routers.sonarr.rule: Host(`sonarr.${DOMAIN}`)
@@ -27,8 +26,7 @@ services:
       TZ: ${TZ}
     volumes:
       - ${CONF_DIR}/sonarr-anime:/config
-      - ${DATA_DIR}/downloads:/downloads
-      - ${DATA_DIR}/media:/media
+      - ${DATA_DIR}:/data
     labels:
       traefik.enable: true
       traefik.http.routers.sonarr-anime.rule: Host(`sonarr-anime.${DOMAIN}`)

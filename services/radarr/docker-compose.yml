@@ -10,8 +10,7 @@ services:
       TZ: ${TZ}
     volumes:
       - ${CONF_DIR}/radarr:/config
-      - ${DATA_DIR}/downloads:/downloads
-      - ${DATA_DIR}/media:/media
+      - ${DATA_DIR}:/data
     labels:
       traefik.enable: true
       traefik.http.routers.radarr.rule: Host(`radarr.${DOMAIN}`)
@@ -27,8 +26,7 @@ services:
       TZ: ${TZ}
     volumes:
       - ${CONF_DIR}/radarr-anime:/config
-      - ${DATA_DIR}/downloads:/downloads
-      - ${DATA_DIR}/media:/media
+      - ${DATA_DIR}:/data
     labels:
       traefik.enable: true
       traefik.http.routers.radarr-anime.rule: Host(`radarr-anime.${DOMAIN}`)
