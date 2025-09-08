@@ -9,6 +9,3 @@ services:
       TZ: ${TZ}
     volumes:
       - ${CONF_DIR}/recyclarr:/config
-    labels:
-      traefik.enable: true
-      traefik.http.routers.recyclarr.rule: Host(`recyclarr.${DOMAIN}`)

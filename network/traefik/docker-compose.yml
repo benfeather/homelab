@@ -2,7 +2,8 @@ services:
   tailscale:
     image: tailscale/tailscale
     container_name: tailscale
-    hostname: homelab
+    restart: unless-stopped
+    hostname: traefik
     env_file: ../../.env
     environment:
       - TS_AUTH_ONCE=true
@@ -15,7 +16,6 @@ services:
     cap_add:
       - net_admin
       - sys_module
-    restart: unless-stopped
 
   traefik:
     image: traefik
