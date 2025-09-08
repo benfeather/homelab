@@ -1,0 +1,15 @@
+services:
+  cleanarr:
+    image: ghcr.io/cleanuparr/cleanuparr:latest
+    container_name: cleanarr
+    restart: unless-stopped
+    env_file: ../../.env
+    environment:
+      PGID: ${PGID}
+      PUID: ${PUID}
+      TZ: ${TZ}
+    volumes:
+      - ${CONF_DIR}/cleanarr:/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.cleanarr.rule: Host(`cleanarr.${DOMAIN}`)

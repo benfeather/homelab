@@ -5,6 +5,7 @@
     
     # Services
     - services/bazarr/docker-compose.yml
+    - services/cleanuparr/docker-compose.yml
     - services/huntarr/docker-compose.yml
     - services/lazylibrarian/docker-compose.yml
     - services/lidarr/docker-compose.yml
