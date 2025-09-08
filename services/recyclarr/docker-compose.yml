@@ -1,0 +1,15 @@
+services:
+  recyclarr:
+    image: ghcr.io/recyclarr/recyclarr
+    container_name: recyclarr
+    user: 1000:1000
+    env_file: ../../.env
+    environment:
+      CRON_SCHEDULE: "@daily"
+      RECYCLARR_CREATE_CONFIG: true
+      TZ: ${TZ}
+    volumes:
+      - ${CONF_DIR}/recyclarr:/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.radarr.rule: Host(`recyclarr.${DOMAIN}`)
