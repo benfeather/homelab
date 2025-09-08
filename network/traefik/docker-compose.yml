@@ -2,7 +2,7 @@ services:
   tailscale:
     image: tailscale/tailscale
     container_name: tailscale
-    hostname: traefik
+    hostname: homelab
     env_file: ../../.env
     environment:
       - TS_AUTH_ONCE=true
@@ -53,7 +53,7 @@ services:
       - --entrypoints.websecure.http.tls=true
       - --entrypoints.websecure.http.tls.certResolver=letsencrypt
       - --entrypoints.websecure.http.tls.domains[0].main=${DOMAIN}
-      - --entrypoints.websecure.http.tls.domains[0].sans=${SANS_DOMAIN}
+      - --entrypoints.websecure.http.tls.domains[0].sans=${DOMAIN_SANS}
     labels:
       - "traefik.enable=true"
       - 'traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN}`)'
