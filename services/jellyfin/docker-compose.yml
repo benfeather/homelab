@@ -1,0 +1,24 @@
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+    env_file: ../../.env
+    environment:
+      JELLYFIN_PublishedServerUrl: http://jellyfin:8096
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+    volumes:
+      - ${CONF_DIR}/jellyfin:/config
+      - ${DATA_DIR}:/data
+    ports:
+      - 8096:8096
+      - 8920:8920 #optional
+      - 7359:7359/udp #optional
+      - 1900:1900/udp #optional
+    labels:
+      traefik.enable: true
+      traefik.http.routers.jellyfin.rule: Host(`jellyfin.${DOMAIN}`)
+      traefik.http.routers.jellyfin.entrypoints: web
+      traefik.http.services.jellyfin.loadbalancer.server.port: 8096

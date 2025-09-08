@@ -1,8 +1,20 @@
 {
 	"cSpell.words": [
 		"authentik",
+		"bazarr",
+		"cleanuparr",
 		"healthcheck",
+		"huntarr",
+		"jellyfin",
+		"lazylibrarian",
+		"lidarr",
+		"overseerr",
+		"prowlarr",
 		"radarr",
-		"traefik"
+		"recyclarr",
+		"sabnzbd",
+		"sonarr",
+		"traefik",
+		"whisparr"
 	]
 }

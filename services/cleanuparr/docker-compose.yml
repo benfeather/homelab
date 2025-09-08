@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     env_file: ../../.env
     environment:
+      PORT: 11011
       PGID: ${PGID}
       PUID: ${PUID}
       TZ: ${TZ}
@@ -13,3 +14,6 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.cleanarr.rule: Host(`cleanarr.${DOMAIN}`)
+      traefik.http.routers.cleanarr.entrypoints: web
+      traefik.http.services.cleanarr.loadbalancer.server.port: 11011
+
